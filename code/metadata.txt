@@ -1,0 +1,17 @@
+{
+  "Key Columns": ["Trade ID"],
+  "Criteria Columns": [
+    "Inventory Code",
+    "CUSIP",
+    "Trade Date",
+    "Settlement Date",
+    "Buy or Sell",
+    "Price",
+    "Quantity"
+  ],
+  "Historical Columns": [
+    "CUSIP",
+    "Inventory Code"
+  ],
+  "Date Columns": ["Recon Date"]
+}
