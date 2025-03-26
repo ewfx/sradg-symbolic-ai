@@ -79,7 +79,8 @@ The system utilizes specialized agents for different tasks:
 
 - Python 3.10+
 - CrewAI
-
+- Pydantic
+- Pandas
 ### Running the Application
 
 ```bash
