@@ -1,60 +1,111 @@
-# 🚀 Project Name
+# ReconciliationFlow: Anomaly Detection System
 
-## 📌 Table of Contents
-- [Introduction](#introduction)
-- [Demo](#demo)
-- [Inspiration](#inspiration)
-- [What It Does](#what-it-does)
-- [How We Built It](#how-we-built-it)
-- [Challenges We Faced](#challenges-we-faced)
-- [How to Run](#how-to-run)
-- [Tech Stack](#tech-stack)
-- [Team](#team)
+## Overview
 
----
+ReconciliationFlow is an advanced anomaly detection system designed to streamline financial reconciliation by automating the detection of inconsistencies across multiple data sources. This system leverages machine learning and large language models (LLMs) to enhance accuracy, reduce manual efforts, and provide meaningful insights.
 
-## 🎯 Introduction
-A brief overview of your project and its purpose. Mention which problem statement are your attempting to solve. Keep it concise and engaging.
+## Technical Approach
 
-## 🎥 Demo
-🔗 [Live Demo](#) (if applicable)  
-📹 [Video Demo](#) (if applicable)  
-🖼️ Screenshots:
+The system follows a modular and scalable architecture that allows seamless integration with existing reconciliation processes.
 
-![Screenshot 1](link-to-image)
+### 1. Data Ingestion & Preprocessing
 
-## 💡 Inspiration
-What inspired you to create this project? Describe the problem you're solving.
+- **Sources**: Historical and real-time data are ingested from Excel files and metadata files.
+- **Processing**:
+  - Converts data into JSON format.
+  - Extracts key, criteria, derived, historical, date, and comment columns for reconciliation.
 
-## ⚙️ What It Does
-Explain the key features and functionalities of your project.
+### 2. Anomaly Detection Pipeline
 
-## 🛠️ How We Built It
-Briefly outline the technologies, frameworks, and tools used in development.
+- **Core Model**: The anomaly detection engine is powered by **GPT-4o-mini** for recognizing historical patterns and deviations.
+- **Processing Flow**:
+  1. The `AnomalyDetection` agent analyzes discrepancies between historical and real-time data.
+  2. It classifies breaks as either anomalies or expected variations based on historical trends.
+  3. A structured Markdown report is generated with explanations and classifications.
 
-## 🚧 Challenges We Faced
-Describe the major technical or non-technical challenges your team encountered.
+### 3. Review & Validation
 
-## 🏃 How to Run
-1. Clone the repository  
-   ```sh
-   git clone https://github.com/your-repo.git
-   ```
-2. Install dependencies  
-   ```sh
-   npm install  # or pip install -r requirements.txt (for Python)
-   ```
-3. Run the project  
-   ```sh
-   npm start  # or python app.py
-   ```
+- **Review Agent**: The `AnomalyReview` agent cross-validates flagged anomalies to minimize false positives and negatives.
+- **Rules Applied**:
+  - Only significant breaks violating historical trends are anomalies.
+  - Uniform deviations across time do not qualify as anomalies.
+  - Outlier detection is based on predefined reconciliation rules.
+- **Feedback Loop**: If necessary, the system retries detection and refinement up to three times.
 
-## 🏗️ Tech Stack
-- 🔹 Frontend: React / Vue / Angular
-- 🔹 Backend: Node.js / FastAPI / Django
-- 🔹 Database: PostgreSQL / Firebase
-- 🔹 Other: OpenAI API / Twilio / Stripe
+### 4. Reporting & Summarization
 
-## 👥 Team
-- **Your Name** - [GitHub](#) | [LinkedIn](#)
-- **Teammate 2** - [GitHub](#) | [LinkedIn](#)
+- **Summary Generation**:
+  - The `ReportSummary` agent generates a structured, easy-to-understand summary for business stakeholders.
+  - Each data point includes:
+    - **Break status**
+    - **Resolution details**
+    - **Anomaly classification**
+- **Output Formats**:
+  - Reports are stored in Markdown (`finalReport.md`).
+  - Reviewer feedback is logged in (`reviewComments.md`).
+
+## Workflow
+
+1. **Load Data**: Historical and real-time datasets are extracted and converted into JSON.
+2. **Anomaly Detection**: Discrepancies are analyzed based on past trends.
+3. **Validation**: A review agent ensures accuracy and classifies anomalies.
+4. **Report Generation**: Structured insights are compiled for business review.
+
+## Configuration & Agents
+
+The system utilizes specialized agents for different tasks:
+
+### Agents
+
+- **Anomaly Detector** (`anomaly_detector`):
+  - Identifies and classifies anomalies based on reconciliation data.
+- **Anomaly Reviewer** (`anomaly_reviewer`):
+  - Validates anomaly classification against strict reconciliation rules.
+- **Report Summary Agent** (`report_summary`):
+  - Converts analysis into a readable format for stakeholders.
+
+### Tasks
+
+- **Analysis Task** (`analysis_task`):
+  - Evaluates data discrepancies and applies anomaly detection rules.
+- **Review Task** (`review_task`):
+  - Ensures detected anomalies conform to predefined business logic.
+- **Reporting Task** (`reporting_task`):
+  - Generates structured summaries for easy interpretation.
+
+## Installation & Execution
+
+### Prerequisites
+
+- Python 3.10+
+- CrewAI
+
+### Running the Application
+
+```bash
+crewai flow kickoff
+```
+
+### Output Files
+
+- `output/finalReport.md`: Final reconciliation summary.
+- `output/reviewComments.md`: Review and validation logs.
+
+## Next Steps: Actionable API Integration
+
+To enhance anomaly resolution, the next phase involves integrating APIs that trigger automated actions when anomalies are detected. These may include:
+
+- **Operator Assistance**: Generating resolution tasks for manual review.
+- **Automated Actions**:
+  - Calling external APIs to rectify detected issues.
+  - Sending notifications or emails to relevant stakeholders.
+  - Creating tickets in incident management systems.
+
+This enhancement will ensure that anomalies are not just identified but also efficiently resolved through an automated workflow.
+
+## Benefits
+
+- **Enhanced Accuracy**: AI-powered detection minimizes human errors.
+- **Time Efficiency**: Reduces manual effort in identifying anomalies.
+- **Scalability**: Designed to handle large datasets effectively.
+- **Actionable Insights**: Provides clear explanations for detected anomalies.
